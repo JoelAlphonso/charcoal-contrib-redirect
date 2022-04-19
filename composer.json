@@ -1,9 +1,11 @@
 {
     "type": "library",
     "name": "locomotivemtl/charcoal-contrib-redirect",
-    "description": "Charcoal service provider for my cool feature.",
+    "description": "A charcoal admin service that provides redirection.",
     "keywords": [
-        "charcoal"
+        "charcoal",
+        "redirect",
+        "routing"
     ],
     "homepage": "https://locomotivemtl.github.io/charcoal-contrib-redirect/",
     "license": "MIT",
@@ -11,6 +13,10 @@
         {
             "name": "Locomotive",
             "homepage": "https://locomotive.ca"
+        },
+        {
+            "name": "Joel Alphonso",
+            "email": "joel@locomotive.ca"
         }
     ],
     "minimum-stability": "dev",

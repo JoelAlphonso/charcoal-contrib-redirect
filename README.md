@@ -1,8 +1,8 @@
-Charcoal FooBar
+Charcoal Redirect
 ===============
 
-[![License][badge-license]][charcoal-contrib-foobar]
-[![Latest Stable Version][badge-version]][charcoal-contrib-foobar]
+[![License][badge-license]][charcoal-contrib-redirect]
+[![Latest Stable Version][badge-version]][charcoal-contrib-redirect]
 [![Code Quality][badge-scrutinizer]][dev-scrutinizer]
 [![Coverage Status][badge-coveralls]][dev-coveralls]
 [![Build Status][badge-travis]][dev-travis]
@@ -34,7 +34,7 @@ A [Charcoal][charcoal-app] service provider my cool feature.
 The preferred (and only supported) method is with Composer:
 
 ```shell
-$ composer require locomotivemtl/charcoal-contrib-foobar
+$ composer require locomotivemtl/charcoal-contrib-redirect
 ```
 
 
@@ -98,9 +98,9 @@ $ composer test
 ### API Documentation
 
 -   The auto-generated `phpDocumentor` API documentation is available at:  
-    [https://locomotivemtl.github.io/charcoal-contrib-foobar/docs/master/](https://locomotivemtl.github.io/charcoal-contrib-foobar/docs/master/)
+    [https://locomotivemtl.github.io/charcoal-contrib-redirect/docs/master/](https://locomotivemtl.github.io/charcoal-contrib-redirect/docs/master/)
 -   The auto-generated `apigen` API documentation is available at:  
-    [https://codedoc.pub/locomotivemtl/charcoal-contrib-foobar/master/](https://codedoc.pub/locomotivemtl/charcoal-contrib-foobar/master/index.html)
+    [https://codedoc.pub/locomotivemtl/charcoal-contrib-redirect/master/](https://codedoc.pub/locomotivemtl/charcoal-contrib-redirect/master/index.html)
 
 
 
@@ -114,7 +114,7 @@ $ composer test
 
 ### Coding Style
 
-The charcoal-contrib-foobar module follows the Charcoal coding-style:
+The charcoal-contrib-redirect module follows the Charcoal coding-style:
 
 -   [_PSR-1_][psr-1]
 -   [_PSR-2_][psr-2]
@@ -138,18 +138,18 @@ Charcoal is licensed under the MIT license. See [LICENSE](LICENSE) for details.
 
 
 
-[charcoal-contrib-foobar]:  https://packagist.org/packages/locomotivemtl/charcoal-contrib-foobar
+[charcoal-contrib-redirect]:  https://packagist.org/packages/locomotivemtl/charcoal-contrib-redirect
 [charcoal-app]:             https://packagist.org/packages/locomotivemtl/charcoal-app
 
-[dev-scrutinizer]:    https://scrutinizer-ci.com/g/locomotivemtl/charcoal-contrib-foobar/
-[dev-coveralls]:      https://coveralls.io/r/locomotivemtl/charcoal-contrib-foobar
-[dev-travis]:         https://travis-ci.org/locomotivemtl/charcoal-contrib-foobar
+[dev-scrutinizer]:    https://scrutinizer-ci.com/g/locomotivemtl/charcoal-contrib-redirect/
+[dev-coveralls]:      https://coveralls.io/r/locomotivemtl/charcoal-contrib-redirect
+[dev-travis]:         https://travis-ci.org/locomotivemtl/charcoal-contrib-redirect
 
-[badge-license]:      https://img.shields.io/packagist/l/locomotivemtl/charcoal-contrib-foobar.svg?style=flat-square
-[badge-version]:      https://img.shields.io/packagist/v/locomotivemtl/charcoal-contrib-foobar.svg?style=flat-square
-[badge-scrutinizer]:  https://img.shields.io/scrutinizer/g/locomotivemtl/charcoal-contrib-foobar.svg?style=flat-square
-[badge-coveralls]:    https://img.shields.io/coveralls/locomotivemtl/charcoal-contrib-foobar.svg?style=flat-square
-[badge-travis]:       https://img.shields.io/travis/locomotivemtl/charcoal-contrib-foobar.svg?style=flat-square
+[badge-license]:      https://img.shields.io/packagist/l/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
+[badge-version]:      https://img.shields.io/packagist/v/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
+[badge-scrutinizer]:  https://img.shields.io/scrutinizer/g/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
+[badge-coveralls]:    https://img.shields.io/coveralls/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
+[badge-travis]:       https://img.shields.io/travis/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
 
 [psr-1]:  https://www.php-fig.org/psr/psr-1/
 [psr-2]:  https://www.php-fig.org/psr/psr-2/
