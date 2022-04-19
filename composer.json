@@ -1,11 +1,11 @@
 {
     "type": "library",
-    "name": "locomotivemtl/charcoal-contrib-foobar",
+    "name": "locomotivemtl/charcoal-contrib-redirect",
     "description": "Charcoal service provider for my cool feature.",
     "keywords": [
         "charcoal"
     ],
-    "homepage": "https://locomotivemtl.github.io/charcoal-contrib-foobar/",
+    "homepage": "https://locomotivemtl.github.io/charcoal-contrib-redirect/",
     "license": "MIT",
     "authors": [
         {
