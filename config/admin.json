@@ -1,0 +1,45 @@
+{
+    "admin": {
+        "assets": {
+            "collections": {
+                "tabulator_js": {
+                    "files": [
+                        "vendor/locomotivemtl/charcoal-contrib-redirect/assets/dist/scripts/tabulator.min.js"
+                    ]
+                },
+                "tabulator_css": {
+                    "files": [
+                        "vendor/locomotivemtl/charcoal-contrib-redirect/assets/dist/styles/tabulator.min.css"
+                    ]
+                },
+                "redirection_list_js": {
+                    "files": [
+                        "vendor/locomotivemtl/charcoal-contrib-redirect/assets/dist/scripts/charcoal.redirection-list.min.js"
+                    ]
+                }
+            }
+        },
+        "routes": {
+            "templates": {
+                "redirections": {
+                    "ident": "charcoal/admin/redirect/template/system/redirect",
+                    "route": "/system/redirections"
+                }
+            }
+        },
+        "system_menu": {
+            "items": {
+                "redirections": {
+                    "required_acl_permissions": ["system/admin"],
+                    "active": true,
+                    "label": {
+                        "fr": "Redirections d'urls",
+                        "en": "Urls redirections"
+                    },
+                    "icon_css": "fa fa-chain-broken",
+                    "url": "system/redirections"
+                }
+            }
+        }
+    }
+}
