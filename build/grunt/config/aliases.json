@@ -1,0 +1,14 @@
+{
+    "default": [
+        "sass",
+        "postcss",
+        "cssmin",
+        "jscs",
+        "jshint",
+        "jsonlint",
+        "rollup",
+        "terser",
+        "svg_sprite",
+        "notify:build"
+    ]
+}
