@@ -9,7 +9,8 @@
 
     "properties": {
         "id": {
-            "type": "id"
+            "type": "id",
+            "mode": "uuid"
         },
         "position": {
             "type": "number",
