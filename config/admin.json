@@ -25,6 +25,12 @@
                     "ident": "charcoal/admin/redirect/template/system/redirect",
                     "route": "/system/redirections"
                 }
+            },
+            "actions": {
+                "redirections/update": {
+                    "methods": [ "POST" ],
+                    "ident": "charcoal/admin/redirect/action/update-redirections"
+                }
             }
         },
         "system_menu": {
