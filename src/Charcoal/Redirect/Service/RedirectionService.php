@@ -50,6 +50,26 @@ class RedirectionService
     }
 
     /**
+     * @return array
+     */
+    public function redirectionsAsRoutes(): array
+    {
+        $redirections = $this->loadRedirections();
+        $out = [];
+
+        foreach ($redirections as $redirection) {
+            $out = array_replace($out, [
+                $redirection['path'] => [
+                    'methods' => ['GET', 'POST'],
+                    'redirect' => $redirection['redirect'],
+                ]
+            ]);
+        }
+
+        return $out;
+    }
+
+    /**
      * Load redirections
      *
      * This method doesn't check for an existing table to prevent overhead on the routing system.
@@ -92,6 +112,7 @@ class RedirectionService
                     $this->logger->error(sprintf('Could no load redirection id: %s', $id));
                     continue;
                 }
+                $model->setData($data);
                 $model->update();
             } else {
                 $model->save();
