@@ -1,0 +1,72 @@
+{
+    "sources": {
+        "app.default": {
+            "type": "database",
+            "table": "charcoal_contrib_redirect_redirections"
+        }
+    },
+    "default_source": "app.default",
+
+    "properties": {
+        "id": {
+            "type": "id"
+        },
+        "position": {
+            "type": "number",
+            "l10n": false,
+            "label": {
+                "en": "Position",
+                "fr": "Position"
+            },
+            "description": {
+                "en": "Position determines the linear sorting order of this section relative to others.",
+                "fr": "La position détermine l'ordre linéaire de cette section par rapport aux autres dans le tri des listes."
+            }
+        },
+        "path": {
+            "type": "string",
+            "l10n": false,
+            "label": {
+                "en": "Path",
+                "fr": "Route"
+            },
+            "description": {
+                "en": "Path that needs to be redirected.",
+                "fr": "La route interne qui doit être redirigée."
+            },
+            "notes": {
+                "en": "The path part of the url. In this example, the path is surrounded by <strong>[]</strong>: <code>https://domaine.com[/path/to/somewhere]#id?param=x</code>",
+                "fr": "Partie de l'url qui décrie la route. Dans l'example suivant, la route est entourée de <strong>[]</strong>: <code>https://domaine.com[/route/vers/quelque-part]#id?param=x</code>"
+            }
+        },
+        "redirect": {
+            "type": "string",
+            "l10n": false,
+            "label": {
+                "en": "Redirect path",
+                "fr": "Route de redirection"
+            },
+            "description": {
+                "en": "The path to redirect to.",
+                "fr": "La route interne de la redirection."
+            },
+            "notes": {
+                "en": "The path part of the url. In this example, the path is surrounded by <strong>[]</strong>: <code>https://domaine.com[/path/to/somewhere]#id?param=x</code>",
+                "fr": "Partie de l'url qui décrie la route. Dans l'example suivant, la route est entourée de <strong>[]</strong>: <code>https://domaine.com[/route/vers/quelque-part]#id?param=x</code>"
+            }
+        },
+        "redirectChildren": {
+            "type": "boolean",
+            "l10n": false,
+            "label": {
+                "en": "Redirect sub paths",
+                "fr": "Rediriger les routes sous-jacentes"
+            },
+            "description": {
+                "en": "",
+                "fr": ""
+            }
+        }
+    },
+    "key": "id"
+}

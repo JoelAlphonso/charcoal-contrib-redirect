@@ -1,0 +1,120 @@
+{
+    "default_data": {
+    },
+
+    "labels": {
+        "name": {
+            "en": "Redirection",
+            "fr": "Redirection"
+        },
+        "singular_name": {
+            "en": "Redirection",
+            "fr": "Redirection"
+        },
+        "edit_item": {
+            "en": "Edit redirection",
+            "fr": "Modifier le/la redirection"
+        },
+        "create_item": {
+            "en": "Create redirection",
+            "fr": "Créer une redirection"
+        },
+        "new_item": {
+            "en": "New redirection",
+            "fr": "Nouvelle redirection"
+        },
+        "all_items": {
+            "en": "All redirections",
+            "fr": "Toutes les redirections"
+        },
+        "menu_items": {
+            "en": "Redirection",
+            "fr": "Redirection"
+        }
+    },
+    "admin": {
+        "lists": {
+            "app.default": {
+                "label": {},
+                "properties": [
+                ],
+                "list_actions": [
+                    {
+                        "ident": "create",
+                        "url": "object/edit?main_menu={{main_menu}}&obj_type={{obj_type}}"
+                    }
+                ],
+                "object_actions": {
+                    "edit": {
+                        "label": {
+                            "en": "Modify",
+                            "fr": "Modifier"
+                        },
+                        "url": "object/edit?main_menu={{main_menu}}&obj_type={{obj_type}}&obj_id={{id}}",
+                        "priority": 1
+                    }
+                },
+                "orders": {
+                    "position": {
+                        "property": "position",
+                        "mode": "asc"
+                    }
+                }
+            }
+        },
+        "default_list": "app.default",
+
+        "forms": {
+            "app.default": {
+                "label": {},
+                "groups": {},
+                "sidebars": {
+                    "default": {
+                        "properties": [
+                            "created",
+                            "created_by",
+                            "last_modified",
+                            "last_modified_by"
+                        ]
+                    }
+                }
+            }
+        },
+        "default_form": "app.default",
+
+        "dashboards": {
+            "app.edit": {
+                "layout": {
+                    "structure": [
+                        {"columns": [1]}
+                    ]
+                },
+                "widgets": {
+                    "form": {
+                        "type": "charcoal/admin/widget/object-form",
+                        "form_ident": "app.default",
+                        "group_display_mode": "tab"
+                    }
+                }
+            },
+            "app.table": {
+                "layout": {
+                    "structure": [
+                        {"columns": [1]}
+                    ]
+                },
+                "widgets": {
+                    "table": {
+                        "type": "charcoal/admin/widget/table",
+                        "collection_ident": "app.default",
+                        "sortable": false,
+                        "data_sources": ["request"]
+                    }
+                }
+            }
+        },
+        "default_create_dashboard": "app.edit",
+        "default_edit_dashboard": "app.edit",
+        "default_collection_dashboard": "app.table"
+    }
+}
