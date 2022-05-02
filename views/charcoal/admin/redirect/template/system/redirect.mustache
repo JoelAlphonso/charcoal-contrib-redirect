@@ -1,0 +1,15 @@
+{{> charcoal/admin/template/inc.header }}
+
+<main class="c-page-container o-flex_main">
+    {{> charcoal/admin/template/inc.page-header }}
+    <section class="o-container -top -bottom">
+        {{> charcoal/admin/widget/feedbacks }}
+        <div class="dashboard">
+            {{# redirectionsListWidget }}
+                {{> charcoal/admin/redirect/widget/redirections-list }}
+            {{/ redirectionsListWidget }}
+        </div>
+    </section>
+</main>
+
+{{> charcoal/admin/template/inc.footer }}

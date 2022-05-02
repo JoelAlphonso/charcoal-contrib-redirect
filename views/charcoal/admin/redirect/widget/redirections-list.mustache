@@ -1,0 +1,27 @@
+<div id="{{ widgetId }}">
+    <div class="js-tabulator"></div>
+    <div class="section mt-2">
+        <button class="btn btn-success js-add-row">
+            <i class="fa fa-plus-circle fa-lg"></i> &nbsp; Add Row
+        </button>
+        <button class="btn btn-primary js-update float-right">
+            <i class="fa fa-floppy-o fa-lg"></i> &nbsp; Update
+        </button>
+    </div>
+</div>
+
+{{ assets.enqueue.module.tabulator_js }}
+{{ assets.enqueue.css.tabulator_css }}
+{{ assets.enqueue.module.redirection_list_js }}
+
+{{# assets.inject.module }}
+
+    Charcoal.Admin.manager().add_widget({
+        id: '{{ widgetId }}',
+        selector: '#{{ widgetId }}',
+        type: '{{ type }}',
+        widget_type: '{{ type }}',
+        redirections: '{{& redirections }}'
+    });
+
+{{/ assets.inject.module }}
