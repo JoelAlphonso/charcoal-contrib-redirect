@@ -50,6 +50,8 @@ class RedirectionService
     }
 
     /**
+     * Load redirection objects and return prepared array for APP routing.
+     *
      * @return array
      */
     public function redirectionsAsRoutes(): array
@@ -58,10 +60,20 @@ class RedirectionService
         $out = [];
 
         foreach ($redirections as $redirection) {
+            $path = '/'.trim($redirection['path'], '/');
+            $redirect = '/'.ltrim($redirection['redirect'], '/');
+
+            // Catchall children
+            if ($redirection['redirectChildren']) {
+                $path.='/{path:.*}';
+            } else {
+                $path.='[/]';
+            }
+
             $out = array_replace($out, [
-                $redirection['path'] => [
-                    'methods' => ['GET', 'POST'],
-                    'redirect' => $redirection['redirect'],
+                $path => [
+                    'methods'  => ['GET'],
+                    'redirect' => $redirect,
                 ]
             ]);
         }
