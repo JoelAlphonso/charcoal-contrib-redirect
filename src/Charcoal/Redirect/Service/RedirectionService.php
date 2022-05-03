@@ -50,6 +50,22 @@ class RedirectionService
     }
 
     /**
+     * @return string
+     */
+    public function redirectionsClass(): string
+    {
+        return $this->redirectionsClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function redirectionsObjType(): string
+    {
+        return $this->redirectionsProto()->objType();
+    }
+
+    /**
      * Load redirection objects and return prepared array for APP routing.
      *
      * @return array
@@ -57,7 +73,7 @@ class RedirectionService
     public function redirectionsAsRoutes(): array
     {
         $redirections = $this->loadRedirections();
-        $out = [];
+        $out          = [];
 
         foreach ($redirections as $redirection) {
             $path = '/'.trim($redirection['path'], '/');

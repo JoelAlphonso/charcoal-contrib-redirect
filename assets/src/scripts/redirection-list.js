@@ -2,21 +2,21 @@
 
 export class RedirectionList extends Charcoal.Admin.Widget {
     table;
+    selector;
+    objectType;
     tableData = [];
     initialData = [];
-    selector;
 
     constructor(data) {
         super(data);
 
         this.selector = data.selector;
+        this.objectType = data['object_type'];
 
-        console.log(data.redirections)
-
-        //define data
-        this.tableData = JSON.parse(data.redirections);
-
-        this.initialData = JSON.parse(JSON.stringify(this.tableData));
+        // define data
+        this.tableData = JSON.parse(data['redirections']);
+        // needed to prevent object reference with edited data.
+        this.initialData = JSON.parse(data['redirections']);
     }
 
 
@@ -81,8 +81,8 @@ export class RedirectionList extends Charcoal.Admin.Widget {
     registerEvents() {
         this.table.on('dataChanged', function (data) {
             //data - the updated table data
+            // change button state based on data comparison with original daata.
 
-            console.log(data);
         });
 
 
@@ -124,8 +124,37 @@ export class RedirectionList extends Charcoal.Admin.Widget {
     }
 
     deleteRow(row) {
-        row.delete();
-        this.table.redraw();
+        this.confirm(
+            {
+                title: 'Delete Row',
+                message: 'Are you sure you wish to proceed with deleting this row?',
+            },
+            () => { // On confirm
+                console.log(this.objectType)
+
+                let data = {
+                    obj_type: this.objectType,
+                    obj_id: row.getData()['id'],
+                }
+
+                fetch('/admin/object/delete', {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            row.delete();
+                            this.table.redraw();
+                        }
+
+                        if (data.feedbacks) {
+                            Charcoal.Admin.feedback(data.feedbacks).dispatch();
+                        }
+                    })
+            }
+        );
     }
 
     cloneRow(row) {

@@ -44,4 +44,12 @@ class RedirectionsListWidget extends AdminWidget
     {
         return json_encode($this->redirectionService->loadRedirections());
     }
+
+    /**
+     * @return string
+     */
+    public function objectType(): string
+    {
+        return $this->redirectionService->redirectionsObjType();
+    }
 }
