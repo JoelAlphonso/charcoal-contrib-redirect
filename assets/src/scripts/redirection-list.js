@@ -1,3 +1,5 @@
+/* globals Charcoal */
+
 export class RedirectionList extends Charcoal.Admin.Widget {
     table;
     tableData = [];
@@ -100,9 +102,24 @@ export class RedirectionList extends Charcoal.Admin.Widget {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
-            }).then(res => {
-                console.log("Request complete! response:", res);
-            });
+            })
+                .then(response => {
+                    if (response.status !== 200 && response.status !== 202) {
+                        // error
+                    }
+
+                    return response.json()
+                })
+                .then(data => {
+                    console.log("Request complete! response:", data);
+
+                    if (data.feedbacks) {
+                        Charcoal.Admin.feedback(data.feedbacks).dispatch();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         });
     }
 
