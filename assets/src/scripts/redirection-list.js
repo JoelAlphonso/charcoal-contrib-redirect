@@ -79,10 +79,12 @@ export class RedirectionList extends Charcoal.Admin.Widget {
     }
 
     registerEvents() {
-        this.table.on('dataChanged', function (data) {
+        this.table.on('dataChanged', (data) => {
             //data - the updated table data
-            // change button state based on data comparison with original daata.
-
+            // change button state based on data comparison with original data.
+            this.element()
+                .find('.js-update')
+                .prop('disabled', JSON.stringify(data) === JSON.stringify(this.initialData));
         });
 
 
@@ -130,7 +132,11 @@ export class RedirectionList extends Charcoal.Admin.Widget {
                 message: 'Are you sure you wish to proceed with deleting this row?',
             },
             () => { // On confirm
-                console.log(this.objectType)
+                if (!row.getData()['id']) {
+                    row.delete();
+                    this.table.redraw();
+                    return;
+                }
 
                 let data = {
                     obj_type: this.objectType,
