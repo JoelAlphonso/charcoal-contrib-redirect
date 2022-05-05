@@ -100,6 +100,10 @@
         <exclude name="Squiz.Commenting.DocCommentAlignment.SpaceAfterStar" />
     </rule>
 
+    <rule ref="Squiz.Commenting.VariableComment">
+        <exclude name="Squiz.Commenting.VariableComment.Missing" />
+    </rule>
+
     <!-- Forbid `AND` and `OR`, require `&&` and `||` -->
     <rule ref="Squiz.Operators.ValidLogicalOperators" />
 

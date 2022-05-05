@@ -1,20 +1,22 @@
+/* globals Charcoal, Tabulator */
+
 class RedirectionList extends Charcoal.Admin.Widget {
-    table;
+    table = null;
+    selector = null;
+    objectType = null;
     tableData = [];
     initialData = [];
-    selector;
 
     constructor(data) {
         super(data);
 
         this.selector = data.selector;
+        this.objectType = data.object_type;
 
-        console.log(data.redirections);
-
-        //define data
+        // define data
         this.tableData = JSON.parse(data.redirections);
-
-        this.initialData = JSON.parse(JSON.stringify(this.tableData));
+        // needed to prevent object reference with edited data.
+        this.initialData = JSON.parse(data.redirections);
     }
 
 
@@ -46,7 +48,6 @@ class RedirectionList extends Charcoal.Admin.Widget {
                     editorParams: {}
                 },
                 {
-                    headerVisible: false,
                     headerSort: false,
                     width: 150, // not ideal but works just fine for now.
                     cellClick: (e, cell) => {
@@ -62,12 +63,12 @@ class RedirectionList extends Charcoal.Admin.Widget {
                             }
                         });
                     },
-                    formatter: (cell, formatterParams, onRendered) => {
+                    formatter: () => {
                         return `<div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-danger js-delete" title="Delete"><i class='fa fa-trash' style="pointer-events: none;"></i></button>
 <!--                            <button type="button" class="btn btn-secondary js-clone" title="Clone"><i class='fa fa-clone' style="pointer-events: none;"></i></button>-->
 <!--                            <button type="button" class="btn btn-success js-add-below" title="Add row under"><i class='fa fa-plus' style="pointer-events: none;"></i></button>-->
-                        </div>`
+                        </div>`;
                     }
                 }
             ],
@@ -77,12 +78,14 @@ class RedirectionList extends Charcoal.Admin.Widget {
     }
 
     registerEvents() {
-        this.table.on('dataChanged', function (data) {
+        this.table.on('dataChanged', data => {
             //data - the updated table data
-
-            console.log(data);
+            this.toggleUpdateButtonState(data);
         });
 
+        this.table.on('tableBuilt', () => {
+            this.element().removeClass('is-loading');
+        });
 
         // Buttons
         this.element().on(`click.${this.type()}`, '.js-add-row', () => {
@@ -95,20 +98,84 @@ class RedirectionList extends Charcoal.Admin.Widget {
                 return !this.initialData.find(data => JSON.stringify(data) === JSON.stringify(row));
             });
 
+            this.toggleUpdateLoader(true);
+
             //Send data.
             fetch("/admin/redirections/update", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
-            }).then(res => {
-                console.log("Request complete! response:", res);
-            });
+            })
+                .then(response => {
+                    if (response.status !== 200 && response.status !== 202) ;
+
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Request complete! response:", data);
+
+                    if (data.feedbacks) {
+                        Charcoal.Admin.feedback(data.feedbacks).dispatch();
+                    }
+
+                    if (data.redirections) {
+                        this.table.setData(data.redirections);
+                        this.initialData = JSON.parse(JSON.stringify(data.redirections));
+
+                        this.toggleUpdateButtonState(data.redirections);
+                    }
+
+                    this.toggleUpdateLoader(false);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         });
     }
 
+    toggleUpdateButtonState(data) {
+        // change button state based on data comparison with original data.
+        this.element()
+            .find('.js-update')
+            .prop('disabled', JSON.stringify(data) === JSON.stringify(this.initialData));
+    }
+
     deleteRow(row) {
-        row.delete();
-        this.table.redraw();
+        this.confirm(
+            {
+                title: 'Delete Row',
+                message: 'Are you sure you wish to proceed with deleting this row?',
+            },
+            () => { // On confirm
+                if (!row.getData().id) {
+                    row.delete();
+                    this.table.redraw();
+                    return;
+                }
+
+                const data = {
+                    obj_type: this.objectType,
+                    obj_id: row.getData().id,
+                };
+
+                fetch('/admin/object/delete', {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            row.delete();
+                            this.table.redraw();
+                        }
+
+                        if (data.feedbacks) {
+                            Charcoal.Admin.feedback(data.feedbacks).dispatch();
+                        }
+                    });
+            }
+        );
     }
 
     cloneRow(row) {
@@ -126,6 +193,20 @@ class RedirectionList extends Charcoal.Admin.Widget {
 
             return row;
         });
+    }
+
+    toggleUpdateLoader(flag)
+    {
+        const button = this.element().find('.js-update');
+        const loader = button.find('.js-loader');
+
+        if (flag) {
+            button.children().addClass('d-none');
+            loader.removeClass('d-none');
+        } else {
+            button.children().removeClass('d-none');
+            loader.addClass('d-none');
+        }
     }
 
     destroy() {
