@@ -70,4 +70,20 @@ class UpdateRedirectionsAction extends AdminAction
 
         return $response;
     }
+
+    /**
+     * Default response stub.
+     *
+     * @return array
+     */
+    public function results(): array
+    {
+        $results = parent::results();
+
+        if ($this->success()) {
+            $results['redirections'] = $this->redirectionService->loadRedirections();
+        }
+
+        return $results;
+    }
 }

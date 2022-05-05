@@ -80,10 +80,7 @@ export class RedirectionList extends Charcoal.Admin.Widget {
     registerEvents() {
         this.table.on('dataChanged', data => {
             //data - the updated table data
-            // change button state based on data comparison with original data.
-            this.element()
-                .find('.js-update')
-                .prop('disabled', JSON.stringify(data) === JSON.stringify(this.initialData));
+            this.toggleUpdateButtonState(data)
         });
 
         this.table.on('tableBuilt', () => {
@@ -119,8 +116,16 @@ export class RedirectionList extends Charcoal.Admin.Widget {
                 .then(data => {
                     console.log("Request complete! response:", data);
 
-                    if (data.feedbacks) {
+                    if (data['feedbacks']) {
                         Charcoal.Admin.feedback(data.feedbacks).dispatch();
+                    }
+
+                    if (data['redirections']) {
+                        console.log(data['redirections'])
+                        this.table.setData(data['redirections']);
+                        this.initialData = JSON.parse(JSON.stringify(data['redirections']));
+
+                        this.toggleUpdateButtonState(data['redirections'])
                     }
 
                     this.toggleUpdateLoader(false)
@@ -129,6 +134,13 @@ export class RedirectionList extends Charcoal.Admin.Widget {
                     console.error('Error:', error);
                 });
         });
+    }
+
+    toggleUpdateButtonState(data) {
+        // change button state based on data comparison with original data.
+        this.element()
+            .find('.js-update')
+            .prop('disabled', JSON.stringify(data) === JSON.stringify(this.initialData));
     }
 
     deleteRow(row) {
