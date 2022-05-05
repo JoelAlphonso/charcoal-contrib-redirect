@@ -1,11 +1,20 @@
-<div id="{{ widgetId }}">
-    <div class="js-tabulator"></div>
+<div id="{{ widgetId }}" class="is-loading">
+    <div class="o-section position-relative">
+        <div class="js-tabulator"></div>
+        {{> charcoal/admin/widget/inc.loader }}
+    </div>
     <div class="section mt-2">
         <button class="btn btn-success js-add-row">
             <i class="fa fa-plus-circle fa-lg"></i> &nbsp; Add Row
         </button>
         <button class="btn btn-primary js-update float-right" disabled>
-            <i class="fa fa-floppy-o fa-lg"></i> &nbsp; Update
+            <span class="js-loader d-none">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                &nbsp; Loading...
+            </span>
+            <span>
+                <i class="fa fa-floppy-o fa-lg"></i> &nbsp; Update
+            </span>
         </button>
     </div>
 </div>

@@ -48,7 +48,6 @@ export class RedirectionList extends Charcoal.Admin.Widget {
                     editorParams: {}
                 },
                 {
-                    headerVisible: false,
                     headerSort: false,
                     width: 150, // not ideal but works just fine for now.
                     cellClick: (e, cell) => {
@@ -79,7 +78,7 @@ export class RedirectionList extends Charcoal.Admin.Widget {
     }
 
     registerEvents() {
-        this.table.on('dataChanged', (data) => {
+        this.table.on('dataChanged', data => {
             //data - the updated table data
             // change button state based on data comparison with original data.
             this.element()
@@ -87,6 +86,9 @@ export class RedirectionList extends Charcoal.Admin.Widget {
                 .prop('disabled', JSON.stringify(data) === JSON.stringify(this.initialData));
         });
 
+        this.table.on('tableBuilt', () => {
+            this.element().removeClass('is-loading');
+        })
 
         // Buttons
         this.element().on(`click.${this.type()}`, '.js-add-row', () => {
@@ -98,6 +100,8 @@ export class RedirectionList extends Charcoal.Admin.Widget {
                 // Filter out rows that are in the initial data.
                 return !this.initialData.find(data => JSON.stringify(data) === JSON.stringify(row));
             });
+
+            this.toggleUpdateLoader(true)
 
             //Send data.
             fetch("/admin/redirections/update", {
@@ -118,6 +122,8 @@ export class RedirectionList extends Charcoal.Admin.Widget {
                     if (data.feedbacks) {
                         Charcoal.Admin.feedback(data.feedbacks).dispatch();
                     }
+
+                    this.toggleUpdateLoader(false)
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -138,7 +144,7 @@ export class RedirectionList extends Charcoal.Admin.Widget {
                     return;
                 }
 
-                let data = {
+                const data = {
                     obj_type: this.objectType,
                     obj_id: row.getData()['id'],
                 }
@@ -178,6 +184,20 @@ export class RedirectionList extends Charcoal.Admin.Widget {
 
             return row;
         })
+    }
+
+    toggleUpdateLoader(flag)
+    {
+        const button = this.element().find('.js-update')
+        const loader = button.find('.js-loader')
+
+        if (flag) {
+            button.children().addClass('d-none')
+            loader.removeClass('d-none')
+        } else {
+            button.children().removeClass('d-none')
+            loader.addClass('d-none')
+        }
     }
 
     destroy() {
