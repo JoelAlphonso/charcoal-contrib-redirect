@@ -45,7 +45,19 @@ class UpdateRedirectionsAction extends AdminAction
         $data = $request->getParams();
 
         try {
-            $this->redirectionService->updateRedirections($data);
+            $result = $this->redirectionService->updateRedirections($data);
+
+            if (is_array($result)) {
+                array_map(fn($r) => $this->addFeedback($r->level(), $r->message()), $result);
+                $this->setSuccess(false);
+
+                return $response->withStatus(500);
+            } elseif ($result === false) {
+                $this->addFeedback('error', 'Could not update redirections');
+                $this->setSuccess(false);
+
+                return $response->withStatus(500);
+            }
         } catch (\Exception $exception) {
             $this->setSuccess(false);
             $this->addFeedback('error', 'Could not update redirections');

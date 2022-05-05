@@ -76,25 +76,39 @@ class RedirectionService
         $out          = [];
 
         foreach ($redirections as $redirection) {
-            $path = '/'.trim($redirection['path'], '/');
-            $redirect = '/'.ltrim($redirection['redirect'], '/');
-
-            // Catchall children
-            if ($redirection['redirectChildren']) {
-                $path.='/{path:.*}';
-            } else {
-                $path.='[/]';
-            }
+            $redirection = $this->parseRedirection($redirection);
 
             $out = array_replace($out, [
-                $path => [
+                $redirection['path'] => [
                     'methods'  => ['GET'],
-                    'redirect' => $redirect,
+                    'redirect' => $redirection['redirect'],
                 ]
             ]);
         }
 
         return $out;
+    }
+
+    /**
+     * @param RedirectionInterface $redirection The redirection to parse.
+     * @return string[]
+     */
+    public function parseRedirection(RedirectionInterface $redirection): array
+    {
+        $path     = '/'.trim($redirection['path'], '/');
+        $redirect = '/'.ltrim($redirection['redirect'], '/');
+
+        // Catchall children
+        if ($redirection['redirectChildren']) {
+            $path .= '/{path:.*}';
+        } else {
+            $path .= '[/]';
+        }
+
+        return [
+            'path'     => $path,
+            'redirect' => $redirect
+        ];
     }
 
     /**
@@ -122,7 +136,8 @@ class RedirectionService
 
     /**
      * @param array $redirections Redirections data structure array.
-     * @return void
+     * @return array|boolean
+     * @throws \GuzzleHttp\Exception\GuzzleException When Guzzle fails.
      */
     public function updateRedirections(array $redirections)
     {
@@ -141,11 +156,21 @@ class RedirectionService
                     continue;
                 }
                 $model->setData($data);
+
+                if (!$model->validate()) {
+                    return $model->validator()->results()['error'] ?: false;
+                }
+
                 $model->update();
             } else {
+                if (!$model->validate()) {
+                    return $model->validator()->results()['error'] ?: false;
+                }
                 $model->save();
             }
         }
+
+        return true;
     }
 
     /**

@@ -6,6 +6,9 @@ namespace Charcoal\Redirect\Model;
 use Charcoal\Cache\Facade\CachePoolFacade;
 
 // From Pimple
+use Charcoal\Redirect\Service\RedirectionService;
+use Charcoal\Validator\ValidatorInterface;
+use GuzzleHttp\Exception\ClientException;
 use Pimple\Container;
 
 // From 'charcoal-object'
@@ -16,30 +19,13 @@ use Charcoal\Object\Content;
  */
 class Redirection extends Content implements RedirectionInterface
 {
-    /**
-     * Cache Namespace for Redirection
-     */
-    const CACHE_KEY = 'Charcoal/Redirect/Model/Redirection';
+    public const CACHE_KEY = 'Charcoal/Redirect/Model/Redirection';
 
-    /**
-     * @var CachePoolFacade
-     */
-    private $cache;
-
-    /**
-     * @var ?string
-     */
-    protected ?string $path = '';
-
-    /**
-     * @var ?string
-     */
-    protected ?string $redirect = '';
-
-    /**
-     * @var boolean
-     */
-    protected ?bool $redirectChildren = false;
+    private CachePoolFacade $cache;
+    protected ?string       $path             = '';
+    protected ?string       $redirect         = '';
+    protected ?bool         $redirectChildren = false;
+    private string          $baseUrl;
 
     /**
      * Return a new abstract section.
@@ -90,8 +76,66 @@ class Redirection extends Content implements RedirectionInterface
     {
         parent::setDependencies($container);
 
-        $this->cache = $container['cache/facade'];
+        $this->baseUrl = $container['base-url'];
+        $this->cache   = $container['cache/facade'];
     }
+
+    /**
+     * @param ValidatorInterface|null $v Optional. A custom validator object to use for validation.
+     *                                   If null, use object's.
+     * @return boolean
+     * @throws ClientException When guzzle fails.
+     */
+    public function validate(ValidatorInterface &$v = null): bool
+    {
+        if ($this->id()) {
+            if ((clone $this)->load($this->id())->getPath() !== $this->getPath()) {
+                if (!$this->validateRouteDuplicates()) {
+                    return false;
+                }
+            }
+        } else {
+            if (!$this->validateRouteDuplicates()) {
+                return false;
+            }
+        }
+
+        return parent::validate($v);
+    }
+
+    /**
+     * @return boolean
+     * @throws ClientException When guzzle fails.
+     */
+    private function validateRouteDuplicates(): bool
+    {
+        $client = new \GuzzleHttp\Client();
+
+        try {
+            $response = $client->request('GET', $this->baseUrl.trim($this->getPath(), '/[]'));
+            $status   = $response->getStatusCode();
+        } catch (ClientException $e) {
+            $status = $e->getResponse()->getStatusCode();
+
+            if ($status < 200 || $status >= 500) {
+                throw $e;
+            }
+        }
+
+        if (200 <= $status && $status < 400) {
+            $this->validator()->error(
+                (string)$this->translator()->translation([
+                    'fr' => sprintf('Le CHEMIN [ %s ] existe déjà et ne peut être redirigé', $this->getPath()),
+                    'en' => sprintf('The PATH [ %s ] already exist and cannot be redirected.', $this->getPath()),
+                ])
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
     // Lifecycle events
     // ==========================================================================
 
