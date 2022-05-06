@@ -3,11 +3,9 @@ Charcoal Redirect
 
 [![License][badge-license]][charcoal-contrib-redirect]
 [![Latest Stable Version][badge-version]][charcoal-contrib-redirect]
-[![Code Quality][badge-scrutinizer]][dev-scrutinizer]
-[![Coverage Status][badge-coveralls]][dev-coveralls]
 [![Build Status][badge-travis]][dev-travis]
 
-A [Charcoal][charcoal-app] service provider my cool feature.
+A [Charcoal][charcoal-app] service provider to handle route redirections from the `admin` interface.
 
 
 
@@ -16,7 +14,6 @@ A [Charcoal][charcoal-app] service provider my cool feature.
 -   [Installation](#installation)
     -   [Dependencies](#dependencies)
 -   [Service Provider](#service-provider)
-    -   [Parameters](#parameters)
     -   [Services](#services)
 -   [Configuration](#configuration)
 -   [Usage](#usage)
@@ -43,41 +40,49 @@ $ composer require locomotivemtl/charcoal-contrib-redirect
 
 #### Required
 
--   [**PHP 7.1+**](https://php.net): _PHP 7.3+_ is recommended.
+- [**PHP 7.4+**](https://php.net)
 
 
 
 #### PSR
 
---TBD--
-
+- [**PSR-11**][psr-11]: Common interface for dependency containers. Fulfilled by Pimple.
 
 
 ## Service Provider
 
-### Parameters
-
---TBD--
-
-
+The following services are provided with the use of [_
+charcoal-contrib-redirect_](https://github.com/locomotivemtl/charcoal-contrib-redirect)
 
 ### Services
 
---TBD--
-
+* [redirection](src/Charcoal/Redirect/Service/RedirectionService.php) instance
+  of `\Charcoal\Redirect\Service\Redirection`
 
 
 ## Configuration
 
---TBD--
+The only required configuration for the redirect module is to require the module in the list of loaded modules in the
+app configuration.
 
+```json
+{
+    "modules": {
+        "charcoal/redirect/redirect": {}
+    }
+}
+```
 
 
 ## Usage
 
---TBD--
+When the module is loaded, a new database table (`charcoal_contrib_redirect_redirections`) will be created automatically
+when needed. This table will be used to store redirections. When in the admin interface, a new _item_ is added to the
+system menu dropdown (`Url redirections`)
 
+<img alt="system menu" src="readme_image1.png" width="250">
 
+This system menu item requires the user to adhere to the `"system/admin"` acl permission.
 
 ## Development
 
@@ -128,8 +133,8 @@ The charcoal-contrib-redirect module follows the Charcoal coding-style:
 
 ## Credits
 
--   [Locomotive](https://locomotive.ca/)
-
+- [Locomotive](https://locomotive.ca/)
+- [Joel Alphonso](mailto:joel@locomotive.ca)
 
 
 ## License
@@ -145,11 +150,11 @@ Charcoal is licensed under the MIT license. See [LICENSE](LICENSE) for details.
 [dev-coveralls]:      https://coveralls.io/r/locomotivemtl/charcoal-contrib-redirect
 [dev-travis]:         https://travis-ci.org/locomotivemtl/charcoal-contrib-redirect
 
-[badge-license]:      https://img.shields.io/packagist/l/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
-[badge-version]:      https://img.shields.io/packagist/v/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
-[badge-scrutinizer]:  https://img.shields.io/scrutinizer/g/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
-[badge-coveralls]:    https://img.shields.io/coveralls/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
-[badge-travis]:       https://img.shields.io/travis/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
+[badge-license]:      https://img.shields.io/packagist/l/locomotivemtl/charcoal-contrib-redirect?style=flat-square
+[badge-version]:      https://img.shields.io/packagist/v/locomotivemtl/charcoal-contrib-redirect?style=flat-square
+[badge-scrutinizer]:  https://img.shields.io/scrutinizer/g/locomotivemtl/charcoal-contrib-redirect?style=flat-square
+[badge-coveralls]:    https://img.shields.io/coveralls/locomotivemtl/charcoal-contrib-redirect?style=flat-square
+[badge-travis]:       https://img.shields.io/travis/locomotivemtl/charcoal-contrib-redirect?style=flat-square
 
 [psr-1]:  https://www.php-fig.org/psr/psr-1/
 [psr-2]:  https://www.php-fig.org/psr/psr-2/
