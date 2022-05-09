@@ -24,4 +24,9 @@ interface RedirectionInterface extends ContentInterface
      * @return boolean
      */
     public function getRedirectChildren(): ?bool;
+
+    /**
+     * @return integer
+     */
+    public function getRedirectionCode(): ?int;
 }

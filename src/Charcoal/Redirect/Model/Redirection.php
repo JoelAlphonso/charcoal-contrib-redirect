@@ -2,17 +2,11 @@
 
 namespace Charcoal\Redirect\Model;
 
-// From 'charcoal-cache'
 use Charcoal\Cache\Facade\CachePoolFacade;
-
-// From Pimple
-use Charcoal\Redirect\Service\RedirectionService;
+use Charcoal\Object\Content;
 use Charcoal\Validator\ValidatorInterface;
 use GuzzleHttp\Exception\ClientException;
 use Pimple\Container;
-
-// From 'charcoal-object'
-use Charcoal\Object\Content;
 
 /**
  * Object: Redirection
@@ -25,6 +19,7 @@ class Redirection extends Content implements RedirectionInterface
     protected ?string       $path             = '';
     protected ?string       $redirect         = '';
     protected ?bool         $redirectChildren = false;
+    protected ?int          $redirectionCode  = 301;
     private string          $baseUrl;
 
     /**
@@ -64,6 +59,14 @@ class Redirection extends Content implements RedirectionInterface
     public function getRedirectChildren(): ?bool
     {
         return $this->redirectChildren;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getRedirectionCode(): ?int
+    {
+        return $this->redirectionCode;
     }
 
     /**

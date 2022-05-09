@@ -56,6 +56,18 @@
                 "fr": "Partie de l'url qui décrie la route. Dans l'example suivant, la route est entourée de <strong>[]</strong>: <code>https://domaine.com[/route/vers/quelque-part]#id?param=x</code>"
             }
         },
+        "redirectionCode": {
+            "type": "number",
+            "l10n": false,
+            "label": {
+                "en": "Redirection code",
+                "fr": "Code de redirections"
+            },
+            "description": {
+                "en": "",
+                "fr": ""
+            }
+        },
         "redirectChildren": {
             "type": "boolean",
             "l10n": false,
