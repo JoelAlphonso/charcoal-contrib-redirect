@@ -27,7 +27,7 @@ export class RedirectionList extends Charcoal.Admin.Widget {
     init() {
         this.table = new Tabulator(this.selector + ' .js-tabulator', {
             data: this.tableData, //assign data to table
-            maxHeight: '100vh',
+            maxHeight: 'calc(100vh - 200px)',
             autoResize: true,
             layout: 'fitColumns', //fit columns to width of table (optional)
             columns: [ //Define Table Columns
