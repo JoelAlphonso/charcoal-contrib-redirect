@@ -10,7 +10,7 @@ module.exports = {
     },
     build: {
         options: {
-            message: 'Tinify assets are compiled'
+            message: 'Redirect Contrib assets are compiled'
         }
     },
     javascript: {
