@@ -4,6 +4,8 @@ Charcoal Redirect
 [![License][badge-license]][charcoal-contrib-redirect]
 [![Latest Stable Version][badge-version]][charcoal-contrib-redirect]
 [![Build Status][badge-travis]][dev-travis]
+[![Php version][badge-php]][charcoal-contrib-redirect]
+[![Tabulator version][badge-tabulator]][dev-tabulator]
 
 A [Charcoal][charcoal-app] service provider to handle route redirections from the `admin` interface.
 
@@ -148,13 +150,16 @@ Charcoal is licensed under the MIT license. See [LICENSE](LICENSE) for details.
 
 [dev-scrutinizer]:    https://scrutinizer-ci.com/g/locomotivemtl/charcoal-contrib-redirect/
 [dev-coveralls]:      https://coveralls.io/r/locomotivemtl/charcoal-contrib-redirect
-[dev-travis]:         https://travis-ci.org/locomotivemtl/charcoal-contrib-redirect
-
-[badge-license]:      https://img.shields.io/packagist/l/locomotivemtl/charcoal-contrib-redirect?style=flat-square
-[badge-version]:      https://img.shields.io/packagist/v/locomotivemtl/charcoal-contrib-redirect?style=flat-square
+[dev-travis]:         https://travis-ci.com/locomotivemtl/charcoal-contrib-redirect
+[dev-tabulator]:      https://github.com/olifolkerd/tabulator
+                      
+[badge-license]:      https://img.shields.io/packagist/l/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
+[badge-version]:      https://img.shields.io/packagist/v/locomotivemtl/charcoal-contrib-redirect.svg?style=flat-square
 [badge-scrutinizer]:  https://img.shields.io/scrutinizer/g/locomotivemtl/charcoal-contrib-redirect?style=flat-square
 [badge-coveralls]:    https://img.shields.io/coveralls/locomotivemtl/charcoal-contrib-redirect?style=flat-square
-[badge-travis]:       https://img.shields.io/travis/locomotivemtl/charcoal-contrib-redirect?style=flat-square
+[badge-travis]:       https://img.shields.io/travis/com/locomotivemtl/charcoal-contrib-redirect?style=flat-square
+[badge-php]:          https://img.shields.io/packagist/php-v/locomotivemtl/charcoal-contrib-redirect?style=flat-square
+[badge-tabulator]:    https://img.shields.io/github/package-json/dependency-version/locomotivemtl/charcoal-contrib-redirect/tabulator-tables?style=flat-square
 
 [psr-1]:  https://www.php-fig.org/psr/psr-1/
 [psr-2]:  https://www.php-fig.org/psr/psr-2/
