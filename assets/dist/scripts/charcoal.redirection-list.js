@@ -1,22 +1,26 @@
 /* globals Charcoal, Tabulator */
 
 class RedirectionList extends Charcoal.Admin.Widget {
-    table = null;
-    selector = null;
-    objectType = null;
-    tableData = [];
-    initialData = [];
+
+    defaultRowData() {
+       return {
+            path: '',
+            redirect: '/',
+            redirectionCode: 301
+        }
+    }
 
     constructor(data) {
         super(data);
 
+        this.table = null;
         this.selector = data.selector;
         this.objectType = data.object_type;
 
         // define data
-        this.tableData = JSON.parse(data.redirections);
+        this.tableData = JSON.parse(data.redirections) || [];
         // needed to prevent object reference with edited data.
-        this.initialData = JSON.parse(data.redirections);
+        this.initialData = JSON.parse(data.redirections) || [];
     }
 
 
@@ -41,11 +45,32 @@ class RedirectionList extends Charcoal.Admin.Widget {
                     }
                 },
                 {
+                    title: 'Type',
+                    field: 'redirectionCode',
+                    editor: 'list',
+                    editorParams: {
+                        allowEmpty: false,
+                        values: {
+                            301: 'Permanent (301)',
+                            302:'Temporary (302)'
+                        },
+                        defaultValue: 301,
+                        listOnEmpty:true,
+                        freetext: false
+                    },
+                    formatter:"lookup",
+                    formatterParams:{
+                        301: 'Permanent (301)',
+                        302:'Temporary (302)'
+                    }
+                },
+                {
                     title: 'Redirect children',
                     field: 'redirectChildren',
                     editor: 'tickCross',
                     formatter: 'tickCross',
-                    editorParams: {}
+                    editorParams: {},
+                    visible: false
                 },
                 {
                     headerSort: false,
@@ -89,7 +114,7 @@ class RedirectionList extends Charcoal.Admin.Widget {
 
         // Buttons
         this.element().on(`click.${this.type()}`, '.js-add-row', () => {
-            this.addRow();
+            this.addRow(this.defaultRowData());
         });
 
         this.element().on(`click.${this.type()}`, '.js-update', () => {
