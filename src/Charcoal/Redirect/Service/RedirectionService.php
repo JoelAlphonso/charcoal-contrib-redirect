@@ -90,6 +90,16 @@ class RedirectionService
     }
 
     /**
+     * Load redirection objects and return prepared array for APP redirection.
+     *
+     * @return array
+     */
+    public function redirectionsAsRedirect(): array
+    {
+        return array_map(fn($redirection) => $this->parseRedirection($redirection), $this->loadRedirections());
+    }
+
+    /**
      * @param RedirectionInterface $redirection The redirection to parse.
      * @return string[]
      */
@@ -106,8 +116,9 @@ class RedirectionService
         }
 
         return [
-            'path'     => $path,
-            'redirect' => $redirect
+            'path'            => $path,
+            'redirect'        => $redirect,
+            'redirectionCode' => $redirection['redirectionCode']
         ];
     }
 

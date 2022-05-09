@@ -3,7 +3,6 @@
 namespace Charcoal\Redirect;
 
 use Charcoal\App\Module\AbstractModule;
-use Charcoal\App\Route\RouteManager;
 use Charcoal\Redirect\Service\RedirectionService;
 
 /**
@@ -42,17 +41,10 @@ class RedirectModule extends AbstractModule
         /** @var RedirectionService $redirectionService */
         $redirectionService = $container['charcoal/redirection/service'];
 
-        if (!isset($this->routeManager)) {
-            $this->routeManager = new RouteManager([
-                'config' => [
-                    'templates' => $redirectionService->redirectionsAsRoutes()
-                ],
-                'app'    => $this->app(),
-                'logger' => $this->logger
-            ]);
-
-            $this->routeManager->setupRoutes();
-        }
+        array_map(
+            fn($redirect) => $this->app()->redirect(...array_values($redirect)),
+            $redirectionService->redirectionsAsRedirect()
+        );
 
         return $this;
     }
