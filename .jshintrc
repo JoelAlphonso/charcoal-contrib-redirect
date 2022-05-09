@@ -5,11 +5,13 @@
     "eqnull": true,
     "undef": true,
     "unused": true,
+    "asi":  true,
     "globals": {
         "Charcoal": true,
         "$": true,
         "jQuery": true,
         "BootstrapDialog": true,
+        "Tabulator": true,
         "module": true,
         "require": true,
         "console": true
