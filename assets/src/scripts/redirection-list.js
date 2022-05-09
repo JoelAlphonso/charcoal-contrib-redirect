@@ -1,27 +1,26 @@
 /* globals Charcoal, Tabulator */
 
 export class RedirectionList extends Charcoal.Admin.Widget {
-    table = null;
-    selector = null;
-    objectType = null;
-    tableData = [];
-    initialData = [];
-    defaultRowData = {
-        path: '',
-        redirect: '/',
-        redirectionCode: 301
+
+    defaultRowData() {
+       return {
+            path: '',
+            redirect: '/',
+            redirectionCode: 301
+        }
     }
 
     constructor(data) {
         super(data);
 
+        this.table = null;
         this.selector = data.selector;
         this.objectType = data.object_type;
 
         // define data
-        this.tableData = JSON.parse(data.redirections);
+        this.tableData = JSON.parse(data.redirections) || [];
         // needed to prevent object reference with edited data.
-        this.initialData = JSON.parse(data.redirections);
+        this.initialData = JSON.parse(data.redirections) || [];
     }
 
 
@@ -115,7 +114,7 @@ export class RedirectionList extends Charcoal.Admin.Widget {
 
         // Buttons
         this.element().on(`click.${this.type()}`, '.js-add-row', () => {
-            this.addRow(this.defaultRowData);
+            this.addRow(this.defaultRowData());
         });
 
         this.element().on(`click.${this.type()}`, '.js-update', () => {
