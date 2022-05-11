@@ -28,7 +28,7 @@
     },
     "require": {
         "php": ">7.4",
-        "charcoal-admin": ">0.30.2",
+        "locomotivemtl/charcoal-admin": ">0.30.2",
         "ext-json": "*"
     },
     "require-dev": {
