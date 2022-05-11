@@ -185,6 +185,43 @@ class RedirectionService
     }
 
     /**
+     * @param array $redirections List of redirections.
+     * @return array
+     */
+    public function validateRedirectionsForUpdate(array $redirections): array
+    {
+        $this->createRedirectionsTable();
+
+        $errors = [];
+
+        foreach ($redirections as $data) {
+            $model = clone $this->redirectionsProto();
+            $model->setData($data);
+            $id = $model->id();
+
+            if ($id) {
+                $model->load($id);
+
+                if (!$model->id()) {
+                    $this->logger->error(sprintf('Could no load redirection id: %s', $id));
+                    continue;
+                }
+                $model->setData($data);
+
+                if (!$model->validate()) {
+                    $errors = [...$model->validator()->results()['error'], ...$errors];
+                }
+            } else {
+                if (!$model->validate()) {
+                    $errors = [...$model->validator()->results()['error'], ...$errors];
+                }
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
      * Create redirections table only if nonexistent.
      * To prevent some overhead in the routing system, this should only be called when trying to write redirections.
      *

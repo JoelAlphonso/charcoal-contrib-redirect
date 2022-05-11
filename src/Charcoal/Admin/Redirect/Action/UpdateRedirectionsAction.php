@@ -45,6 +45,15 @@ class UpdateRedirectionsAction extends AdminAction
         $data = $request->getParams();
 
         try {
+            $validationArray = $this->redirectionService->validateRedirectionsForUpdate($data);
+
+            if (!empty($validationArray)) {
+                array_map(fn($r) => $this->addFeedback($r->level(), $r->message()), $validationArray);
+                $this->setSuccess(false);
+
+                return $response->withStatus(500);
+            }
+
             $result = $this->redirectionService->updateRedirections($data);
 
             if (is_array($result)) {
