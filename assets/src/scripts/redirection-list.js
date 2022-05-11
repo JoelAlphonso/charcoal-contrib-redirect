@@ -32,6 +32,7 @@ export class RedirectionList extends Charcoal.Admin.Widget {
     init() {
         this.table = new Tabulator(this.selector + ' .js-tabulator', {
             data: this.tableData, //assign data to table
+            index: 'path',
             maxHeight: 'calc(100vh - 200px)',
             autoResize: true,
             layout: 'fitColumns', //fit columns to width of table (optional)
@@ -176,6 +177,12 @@ export class RedirectionList extends Charcoal.Admin.Widget {
 
                     if (data.feedbacks) {
                         Charcoal.Admin.feedback(data.feedbacks).dispatch();
+                    }
+
+                    if (data.errors) {
+                        data.errors.map((error) => {
+                            this.table.getRow(error).getElement().classList.add('bg-warning')
+                        })
                     }
 
                     if (data.redirections) {
