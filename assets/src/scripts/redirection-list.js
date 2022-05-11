@@ -21,11 +21,6 @@ export class RedirectionList extends Charcoal.Admin.Widget {
         this.tableData = JSON.parse(data.redirections) || [];
         // needed to prevent object reference with edited data.
         this.initialData = JSON.parse(data.redirections) || [];
-
-        window.widgetL10n = {
-            'loading': '{{# _t }}Loading Widget…{{/ _t }}',
-            'loadingFailed': '{{# _t }}Failed to load widget{{/ _t }}'
-        };
     }
 
 
