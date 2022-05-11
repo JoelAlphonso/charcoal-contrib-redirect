@@ -186,13 +186,14 @@ class RedirectionService
 
     /**
      * @param array $redirections List of redirections.
-     * @return array
+     * @return array|boolean
      */
-    public function validateRedirectionsForUpdate(array $redirections): array
+    public function validateRedirectionsForUpdate(array $redirections)
     {
         $this->createRedirectionsTable();
 
         $errors = [];
+        $paths  = [];
 
         foreach ($redirections as $data) {
             $model = clone $this->redirectionsProto();
@@ -207,18 +208,18 @@ class RedirectionService
                     continue;
                 }
                 $model->setData($data);
+            }
 
-                if (!$model->validate()) {
-                    $errors = [...$model->validator()->results()['error'], ...$errors];
-                }
-            } else {
-                if (!$model->validate()) {
-                    $errors = [...$model->validator()->results()['error'], ...$errors];
-                }
+            if (!$model->validate()) {
+                $paths[] = $model->getPath();
+                $errors  = [...$model->validator()->results()['error'], ...$errors];
             }
         }
 
-        return $errors;
+        return empty($errors) ? false : [
+            'paths'  => $paths,
+            'errors' => $errors
+        ];
     }
 
     /**

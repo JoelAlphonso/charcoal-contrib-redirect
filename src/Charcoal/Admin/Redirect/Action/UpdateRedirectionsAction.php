@@ -18,6 +18,8 @@ class UpdateRedirectionsAction extends AdminAction
      */
     protected RedirectionService $redirectionService;
 
+    protected ?array $errors;
+
     /**
      * Set common dependencies used in all admin actions.
      *
@@ -47,8 +49,14 @@ class UpdateRedirectionsAction extends AdminAction
         try {
             $validationArray = $this->redirectionService->validateRedirectionsForUpdate($data);
 
-            if (!empty($validationArray)) {
-                array_map(fn($r) => $this->addFeedback($r->level(), $r->message()), $validationArray);
+            if ($validationArray) {
+                array_map(
+                    fn($r) => $this->addFeedback($r->level(), $r->message()),
+                    $validationArray['errors']
+                );
+
+                $this->errors = $validationArray['paths'];
+
                 $this->setSuccess(false);
 
                 return $response->withStatus(500);
@@ -91,6 +99,8 @@ class UpdateRedirectionsAction extends AdminAction
 
         if ($this->success()) {
             $results['redirections'] = $this->redirectionService->loadRedirections();
+        } else {
+            $results['errors'] = $this->errors;
         }
 
         return $results;
