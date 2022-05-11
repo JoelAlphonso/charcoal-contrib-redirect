@@ -16,5 +16,5 @@
         "require": true,
         "console": true
     },
-    "esversion": 6
+    "esversion": 11
 }

@@ -3,7 +3,6 @@
         "sass",
         "postcss",
         "cssmin",
-        "jscs",
         "jshint",
         "jsonlint",
         "rollup",
