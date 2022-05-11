@@ -21,6 +21,11 @@ export class RedirectionList extends Charcoal.Admin.Widget {
         this.tableData = JSON.parse(data.redirections) || [];
         // needed to prevent object reference with edited data.
         this.initialData = JSON.parse(data.redirections) || [];
+
+        window.widgetL10n = {
+            'loading': '{{# _t }}Loading Widget…{{/ _t }}',
+            'loadingFailed': '{{# _t }}Failed to load widget{{/ _t }}'
+        };
     }
 
 
@@ -116,6 +121,34 @@ export class RedirectionList extends Charcoal.Admin.Widget {
         this.element().on(`click.${this.type()}`, '.js-add-row', () => {
             this.addRow(this.defaultRowData());
         });
+
+        // Buttons
+        this.element().on(`click.${this.type()}`, '.js-import', () => {
+            this.element().find('#fileContainer')?.click()
+        });
+
+        this.element().on(`change.${this.type()}`, '#fileContainer', (e) => {
+            const file = e.currentTarget.files[0]
+            const reader = new FileReader()
+
+            reader.readAsText(file);
+
+            reader.onload = () => {
+                const csvData = reader.result.toString()
+                let rows = csvData.split(/\r?\n/)
+
+                for (let row in rows) {
+                    let data = this.defaultRowData()
+                    row = rows[row].split(',')
+
+                    data.path = row[0] ? row[0] : data.path;
+                    data.redirect = row[1] ? row[1] : data.redirect;
+                    data.redirectionCode = row[2] ? row[2] : data.redirectionCode;
+
+                    this.addRow(data)
+                }
+            }
+        })
 
         this.element().on(`click.${this.type()}`, '.js-update', () => {
             let data = this.table.getData().filter((row) => {
